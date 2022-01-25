@@ -3,6 +3,7 @@
 require_once('../../models/Serie.php');
 require_once('../../controllers/connection/DBConnection.php');
 require_once('../../controllers/PlatformController.php');
+require_once('../../controllers/DirectorController.php');
 
 function listSeries()
 {
@@ -14,12 +15,14 @@ function listSeries()
 
         $serieId = $serieItem['id'];
         $platformId = $serieItem['platform_id'];
+        $directorId=$serieItem['director_id'];
+        $director=getDirectorData($directorId);
         $platform = getPlatform($platformId, $mysqli);
         $subtitlesLanguages = $mysqli->query("SELECT l.* FROM serie_subtitle_language as ssl1 JOIN language as l on ssl1.language_id = l.id WHERE ssl1.serie_id = $serieId");
         $audioLanguages = $mysqli->query("SELECT l.* FROM serie_audio_language as sal JOIN language as l on sal.language_id = l.id WHERE sal.serie_id = $serieId");
         $actors = $mysqli->query("SELECT * FROM actor_serie as as1 JOIN actor a on a.id = as1.actor_id WHERE as1.serie_id = $serieId");
 
-        $serieObject = new Serie($serieId, $serieItem['title'], $platform->getName(), $serieItem['director_id'], $actors, $audioLanguages, $subtitlesLanguages);
+        $serieObject = new Serie($serieId, $serieItem['title'], $platform->getName(),$director->getGivenName().' '.$director->getSurnames(), $actors, $audioLanguages, $subtitlesLanguages);
         array_push($seriesArray, $serieObject);
     }
     $mysqli->close();
