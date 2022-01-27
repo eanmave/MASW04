@@ -22,40 +22,40 @@ function storeLanguage($languageName, $isoCode)
 {
     $mysqli = initConectionDB();
 
-    $languageCreated = false;
+    $error = '';
 
     $upperIsoCode = strtoupper($isoCode);
-    if ($mysqli->query("INSERT INTO language (name, iso_code) VALUES('$languageName', '$upperIsoCode')")) {
-        $languageCreated = true;
+    if (!$mysqli->query("INSERT INTO language (name, iso_code) VALUES('$languageName', '$upperIsoCode')")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $languageCreated;
+    return $error;
 }
 
 function updateLanguage($languageId, $languageName, $isoCode)
 {
     $mysqli = initConectionDB();
 
-    $languageEdited = false;
+    $error = '';
 
     $upperIsoCode = strtoupper($isoCode);
-    if ($mysqli->query("UPDATE language SET name = '$languageName', iso_code = '$upperIsoCode' WHERE id = $languageId")) {
-        $languageEdited = true;
+    if (!$mysqli->query("UPDATE language SET name = '$languageName', iso_code = '$upperIsoCode' WHERE id = $languageId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $languageEdited;
+    return $error;
 }
 
 function deleteLanguage($languageId)
 {
     $mysqli = initConectionDB();
 
-    $languageDeleted = false;
-    if ($mysqli->query("DELETE FROM language WHERE id = $languageId")) {
-        $languageDeleted = true;
+    $error = '';
+    if (!$mysqli->query("DELETE FROM language WHERE id = $languageId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $languageDeleted;
+    return $error;
 }
 
 

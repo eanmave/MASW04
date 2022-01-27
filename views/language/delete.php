@@ -9,9 +9,9 @@ require_once('../../controllers/LanguageController.php')
 
 <?php
 $languageId = $_POST['languageId'];
-$languageDeleted = deleteLanguage($languageId);
+$error = deleteLanguage($languageId);
 
-if ($languageDeleted) {
+if (empty($error)) {
     ?>
     <div class="row">
         <div class="alert alert-success" role="alert">
@@ -24,8 +24,7 @@ if ($languageDeleted) {
     ?>
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            El idioma no se ha borrado correctamente. <br><a href="delete.php">Volver a
-                intentarlo</a>
+            El idioma no se ha borrado correctamente. <br><br><?php echo $error; ?><br><br><a href="list.php">Regresar</a>
         </div>
     </div>
     <?php

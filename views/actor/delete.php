@@ -9,9 +9,9 @@ require_once('../../controllers/ActorController.php')
 
 <?php
 $actorId = $_POST['actorId'];
-$actorDeleted = deleteActor($actorId);
+$error = deleteActor($actorId);
 
-if ($actorDeleted) {
+if (empty($error)) {
     ?>
     <div class="row">
         <div class="alert alert-success" role="alert">
@@ -24,8 +24,7 @@ if ($actorDeleted) {
     ?>
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            El actor no se ha borrado correctamente. <br><a href="delete.php">Volver a
-                intentarlo</a>
+            El actor no se ha borrado correctamente. <br><br><?php echo $error; ?><br><br><a href="list.php">Regresar</a>
         </div>
     </div>
     <?php

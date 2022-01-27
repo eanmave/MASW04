@@ -19,12 +19,12 @@ $directors = listDirectors();
 $platforms = listPlatforms();
 
 $sendData = false;
-$serieCreated = false;
+$error = '';
 if (isset($_POST['createBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['title']) && isset($_POST['platformId']) && isset($_POST['directorId']) && isset($_POST['actorIds']) && isset($_POST['audioLanguageIds']) && isset($_POST['subtitleLanguageIds'])) {
-    $serieCreated = storeSerie($_POST['title'], $_POST['platformId'], $_POST['directorId'], $_POST['actorIds'], $_POST['audioLanguageIds'], $_POST['subtitleLanguageIds']);
+    $error = storeSerie($_POST['title'], $_POST['platformId'], $_POST['directorId'], $_POST['actorIds'], $_POST['audioLanguageIds'], $_POST['subtitleLanguageIds']);
 }
 
 if (!$sendData) {
@@ -100,7 +100,7 @@ if (!$sendData) {
             </form>
 <?php
 } else {
-    if ($serieCreated) {
+    if (empty($error)) {
         ?>
             <div class="row">
                 <div class="alert alert-success" role="alert">
@@ -112,7 +112,7 @@ if (!$sendData) {
         ?>
             <div class="row">
                 <div class="alert alert-danger" role="alert">
-                    El serie no se ha creado correctamente. <br><a href="create.php">Volver a
+                    El serie no se ha creado correctamente. <br><br><?php echo $error; ?><br><br><a href="create.php">Volver a
                         intentarlo</a>
                 </div>
             </div>

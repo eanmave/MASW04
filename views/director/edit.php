@@ -9,12 +9,12 @@ require_once('../../controllers/DirectorController.php')
 
 <?php
 $sendData = false;
-$directorEdited = false;
+$error = '';
 if (isset($_POST['editBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['givenName']) && isset($_POST['surNames']) && isset($_POST['birthDate']) && isset($_POST['country'])) {
-    $directorEdited = updateDirector($_POST['directorId'], $_POST['givenName'], $_POST['surNames'], $_POST['birthDate'], $_POST['country']);
+    $error = updateDirector($_POST['directorId'], $_POST['givenName'], $_POST['surNames'], $_POST['birthDate'], $_POST['country']);
 }
 
 if (!$sendData) {
@@ -51,7 +51,7 @@ $directorObject = getDirectorData($directorId);
 
             <?php
             } else {
-                if ($directorEdited) {
+                if (empty($error)) {
                     ?>
                     <div class="row">
                         <div class="alert alert-success" role="alert">
@@ -64,7 +64,7 @@ $directorObject = getDirectorData($directorId);
                     ?>
                     <div class="row">
                         <div class="alert alert-danger" role="alert">
-                            El director no se ha editado correctamente. <br><a href="edit.php">Volver a
+                            El director no se ha editado correctamente. <br><br><?php echo $error; ?><br><br><a href="edit.php">Volver a
                                 intentarlo</a>
                         </div>
                     </div>

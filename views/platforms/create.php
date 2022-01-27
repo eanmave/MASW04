@@ -9,12 +9,12 @@ require_once('../../controllers/PlatformController.php')
 
 <?php
 $sendData = false;
-$platformCreated = false;
+$error = '';
 if (isset($_POST['createBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['platformName'])) {
-    $platformCreated = storePlatform($_POST['platformName']);
+    $error = storePlatform($_POST['platformName']);
 }
 
 if (!$sendData) {
@@ -35,7 +35,7 @@ if (!$sendData) {
             </form>
 <?php
 } else {
-    if ($platformCreated) {
+    if (empty($error)) {
         ?>
             <div class="row">
                 <div class="alert alert-success" role="alert">
@@ -47,7 +47,7 @@ if (!$sendData) {
         ?>
             <div class="row">
                 <div class="alert alert-danger" role="alert">
-                    La plataforma no se ha creado correctamente. <br><a href="create.php">Volver a
+                    La plataforma no se ha creado correctamente. <br><br><?php echo $error; ?><br><br><a href="create.php">Volver a
                         intentarlo</a>
                 </div>
             </div>

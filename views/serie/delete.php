@@ -9,9 +9,9 @@ require_once('../../controllers/SerieController.php')
 
 <?php
 $serieId = $_POST['serieId'];
-$serieDeleted = deleteSerie($serieId);
+$error = deleteSerie($serieId);
 
-if ($serieDeleted) {
+if (empty($error)) {
     ?>
     <div class="row">
         <div class="alert alert-success" role="alert">
@@ -24,8 +24,7 @@ if ($serieDeleted) {
     ?>
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            La serie no se ha borrado correctamente. <br><a href="delete.php">Volver a
-                intentarlo</a>
+            La serie no se ha borrado correctamente. <br><br><?php echo $error; ?><br><br><a href="list.php">Regresar</a>
         </div>
     </div>
     <?php

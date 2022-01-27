@@ -20,3 +20,8 @@ function initConectionDB()
     }
     return $mysqli;
 }
+
+function error($mysqli)
+{
+    return 'Error: ' . $mysqli->error;
+}

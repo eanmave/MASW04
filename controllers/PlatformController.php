@@ -22,36 +22,36 @@ function storePlatform($platformName)
 {
     $mysqli = initConectionDB();
 
-    $platformCreated = false;
-    if ($mysqli->query("INSERT INTO platform (name) VALUES('$platformName')")) {
-        $platformCreated = true;
+    $error = '';
+    if (!$mysqli->query("INSERT INTO platform (name) VALUES('$platformName')")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $platformCreated;
+    return $error;
 }
 
 function updatePlatform($platformId, $platformName)
 {
     $mysqli = initConectionDB();
 
-    $platformEdited = false;
-    if ($mysqli->query("UPDATE platform SET name = '$platformName' WHERE id = $platformId")) {
-        $platformEdited = true;
+    $error = '';
+    if (!$mysqli->query("UPDATE platform SET name = '$platformName' WHERE id = $platformId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $platformEdited;
+    return $error;
 }
 
 function deletePlatform($platformId)
 {
     $mysqli = initConectionDB();
 
-    $platformDeleted = false;
-    if ($mysqli->query("DELETE FROM platform WHERE id = $platformId")) {
-        $platformDeleted = true;
+    $error ='';
+    if (!$mysqli->query("DELETE FROM platform WHERE id = $platformId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $platformDeleted;
+    return $error;
 }
 
 function getPlatform($platformId, $mysqli)

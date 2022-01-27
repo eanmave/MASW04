@@ -9,12 +9,12 @@ require_once('../../controllers/DirectorController.php')
 
 <?php
 $sendData = false;
-$directorCreated = false;
+$error = '';
 if (isset($_POST['createBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['givenName']) && isset($_POST['surNames']) && isset($_POST['birthDate']) && isset($_POST['country'])) {
-    $directorCreated = storeDirector($_POST['givenName'], $_POST['surNames'], $_POST['birthDate'], $_POST['country']);
+    $error = storeDirector($_POST['givenName'], $_POST['surNames'], $_POST['birthDate'], $_POST['country']);
 }
 
 if (!$sendData) {
@@ -47,7 +47,7 @@ if (!$sendData) {
             </form>
 <?php
 } else {
-    if ($directorCreated) {
+    if (empty($error)) {
         ?>
             <div class="row">
                 <div class="alert alert-success" role="alert">
@@ -59,7 +59,7 @@ if (!$sendData) {
         ?>
             <div class="row">
                 <div class="alert alert-danger" role="alert">
-                    El director no se ha creado correctamente. <br><a href="create.php">Volver a
+                    El director no se ha creado correctamente. <br><br><?php echo $error; ?><br><br><a href="create.php">Volver a
                         intentarlo</a>
                 </div>
             </div>

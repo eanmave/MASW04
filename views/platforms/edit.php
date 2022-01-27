@@ -9,12 +9,12 @@ require_once('../../controllers/PlatformController.php')
 
 <?php
 $sendData = false;
-$platformEdited = false;
+$error = '';
 if (isset($_POST['editBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['platformName'])) {
-    $platformEdited = updatePlatform($_POST['platformId'], $_POST['platformName']);
+    $error = updatePlatform($_POST['platformId'], $_POST['platformName']);
 }
 
 if (!$sendData) {
@@ -42,7 +42,7 @@ $platformObject = getPlatformData($platformId);
 
             <?php
             } else {
-                if ($platformEdited) {
+                if (empty($error)) {
                     ?>
                     <div class="row">
                         <div class="alert alert-success" role="alert">
@@ -55,7 +55,7 @@ $platformObject = getPlatformData($platformId);
                     ?>
                     <div class="row">
                         <div class="alert alert-danger" role="alert">
-                            La plataforma no se ha editado correctamente. <br><a href="edit.php">Volver a
+                            La plataforma no se ha editado correctamente. <br><br><?php echo $error; ?><br><br><a href="edit.php">Volver a
                                 intentarlo</a>
                         </div>
                     </div>

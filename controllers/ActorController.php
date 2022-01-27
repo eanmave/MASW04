@@ -23,38 +23,38 @@ function storeActor($givenName, $surNames, $birthDate, $country)
 {
     $mysqli = initConectionDB();
 
-    $actorCreated = false;
+    $error = '';
     $formattedDate = formatDate($birthDate);
-    if ($mysqli->query("INSERT INTO actor (given_name, surnames, birth_date, country) VALUES('$givenName', '$surNames', '$formattedDate', '$country')")) {
-        $actorCreated = true;
+    if (!$mysqli->query("INSERT INTO actor (given_name, surnames, birth_date, country) VALUES('$givenName', '$surNames', '$formattedDate', '$country')")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $actorCreated;
+    return $error;
 }
 
 function updateActor($actorId, $givenName, $surNames, $birthDate, $country)
 {
     $mysqli = initConectionDB();
 
-    $actorEdited = false;
+    $error = '';
     $formattedDate = formatDate($birthDate);
-    if ($mysqli->query("UPDATE actor SET given_name = '$givenName', surnames = '$surNames', birth_date = '$formattedDate', country = '$country' WHERE id = $actorId")) {
-        $actorEdited = true;
+    if (!$mysqli->query("UPDATE actor SET given_name = '$givenName', surnames = '$surNames', birth_date = '$formattedDate', country = '$country' WHERE id = $actorId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $actorEdited;
+    return $error;
 }
 
 function deleteActor($actorId)
 {
     $mysqli = initConectionDB();
 
-    $actorDeleted = false;
-    if ($mysqli->query("DELETE FROM actor WHERE id = $actorId")) {
-        $actorDeleted = true;
+    $error = '';
+    if (!$mysqli->query("DELETE FROM actor WHERE id = $actorId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $actorDeleted;
+    return $error;
 }
 
 

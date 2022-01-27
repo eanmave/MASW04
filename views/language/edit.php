@@ -9,12 +9,12 @@ require_once('../../controllers/LanguageController.php')
 
 <?php
 $sendData = false;
-$languageEdited = false;
+$error = '';
 if (isset($_POST['editBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['languageName']) && isset($_POST['isoCode'])) {
-    $languageEdited = updateLanguage($_POST['languageId'], $_POST['languageName'], $_POST['isoCode']);
+    $error = updateLanguage($_POST['languageId'], $_POST['languageName'], $_POST['isoCode']);
 }
 
 if (!$sendData) {
@@ -45,7 +45,7 @@ $languageObject = getLanguageData($languageId);
 
             <?php
             } else {
-                if ($languageEdited) {
+                if (empty($error)) {
                     ?>
                     <div class="row">
                         <div class="alert alert-success" role="alert">
@@ -58,7 +58,7 @@ $languageObject = getLanguageData($languageId);
                     ?>
                     <div class="row">
                         <div class="alert alert-danger" role="alert">
-                            El idioma no se ha editado correctamente. <br><a href="edit.php">Volver a
+                            El idioma no se ha editado correctamente. <br><br><?php echo $error; ?><br><br><a href="edit.php">Volver a
                                 intentarlo</a>
                         </div>
                     </div>

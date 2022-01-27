@@ -23,38 +23,38 @@ function storeDirector($givenName, $surNames, $birthDate, $country)
 {
     $mysqli = initConectionDB();
 
-    $directorCreated = false;
+    $error = '';
     $formattedDate = formatDate($birthDate);
-    if ($mysqli->query("INSERT INTO director (given_name, surnames, birth_date, country) VALUES('$givenName', '$surNames', '$formattedDate', '$country')")) {
-        $directorCreated = true;
+    if (!$mysqli->query("INSERT INTO director (given_name, surnames, birth_date, country) VALUES('$givenName', '$surNames', '$formattedDate', '$country')")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $directorCreated;
+    return $error;
 }
 
 function updateDirector($directorId, $givenName, $surNames, $birthDate, $country)
 {
     $mysqli = initConectionDB();
 
-    $directorEdited = false;
+    $error = '';
     $formattedDate = formatDate($birthDate);
-    if ($mysqli->query("UPDATE director SET given_name = '$givenName', surnames = '$surNames', birth_date = '$formattedDate', country = '$country' WHERE id = $directorId")) {
-        $directorEdited = true;
+    if (!$mysqli->query("UPDATE director SET given_name = '$givenName', surnames = '$surNames', birth_date = '$formattedDate', country = '$country' WHERE id = $directorId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $directorEdited;
+    return $error;
 }
 
 function deleteDirector($directorId)
 {
     $mysqli = initConectionDB();
 
-    $directorDeleted = false;
-    if ($mysqli->query("DELETE FROM director WHERE id = $directorId")) {
-        $directorDeleted = true;
+    $error = '';
+    if (!$mysqli->query("DELETE FROM director WHERE id = $directorId")) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $directorDeleted;
+    return $error;
 }
 
 

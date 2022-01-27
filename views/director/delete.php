@@ -9,9 +9,9 @@ require_once('../../controllers/DirectorController.php')
 
 <?php
 $directorId = $_POST['directorId'];
-$directorDeleted = deleteDirector($directorId);
+$error = deleteDirector($directorId);
 
-if ($directorDeleted) {
+if (empty($error)) {
     ?>
     <div class="row">
         <div class="alert alert-success" role="alert">
@@ -24,8 +24,7 @@ if ($directorDeleted) {
     ?>
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            El director no se ha borrado correctamente. <br><a href="delete.php">Volver a
-                intentarlo</a>
+            El director no se ha borrado correctamente. <br><br><?php echo $error; ?><br><br><a href="list.php">Regresar</a>
         </div>
     </div>
     <?php

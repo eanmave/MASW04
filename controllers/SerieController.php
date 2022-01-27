@@ -36,8 +36,12 @@ function storeSerie($title, $platformId, $directorId, $actorIds, $audioLanguages
         $serieId = getSerieIdFromTitle($title, $mysqli);
         $serieCreated = saveReferences($serieId, $actorIds, $audioLanguagesIds, $subtitleLanguageIds, $mysqli);
     }
+    $error = '';
+    if (!$serieCreated) {
+        $error = error($mysqli);
+    }
     $mysqli->close();
-    return $serieCreated;
+    return $error;
 }
 
 function updateSerie($serieId, $title, $platformId, $directorId, $actorIds, $audioLanguagesIds, $subtitleLanguageIds)
@@ -49,20 +53,24 @@ function updateSerie($serieId, $title, $platformId, $directorId, $actorIds, $aud
         deleteReferences($serieId, $mysqli);
         $serieUpdated = saveReferences($serieId, $actorIds, $audioLanguagesIds, $subtitleLanguageIds, $mysqli);
     }
+    $error = '';
+    if (!$serieUpdated) {
+        $error = error($mysqli);
+    }
     $mysqli->close();
-    return $serieUpdated;
+    return $error;
 }
 
 function deleteSerie($serieId)
 {
     $mysqli = initConectionDB();
 
-    $serieDeleted = false;
-    if (deleteReferences($serieId, $mysqli) && $mysqli->query("DELETE FROM serie WHERE id = '$serieId'")) {
-        $serieDeleted = true;
+    $error = '';
+    if (!(deleteReferences($serieId, $mysqli) && $mysqli->query("DELETE FROM serie WHERE id = '$serieId'"))) {
+        $error = error($mysqli);
     }
     $mysqli->close();
-    return $serieDeleted;
+    return $error;
 }
 
 function getSerieIdFromTitle($title, $mysqli)

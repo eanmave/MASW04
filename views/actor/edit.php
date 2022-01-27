@@ -9,12 +9,12 @@ require_once('../../controllers/ActorController.php')
 
 <?php
 $sendData = false;
-$actorEdited = false;
+$error = '';
 if (isset($_POST['editBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['givenName']) && isset($_POST['surNames']) && isset($_POST['birthDate']) && isset($_POST['country'])) {
-    $actorEdited = updateActor($_POST['actorId'], $_POST['givenName'], $_POST['surNames'], $_POST['birthDate'], $_POST['country']);
+    $error = updateActor($_POST['actorId'], $_POST['givenName'], $_POST['surNames'], $_POST['birthDate'], $_POST['country']);
 }
 
 if (!$sendData) {
@@ -51,7 +51,7 @@ $actorObject = getActorData($actorId);
 
             <?php
             } else {
-                if ($actorEdited) {
+                if (empty($error)) {
                     ?>
                     <div class="row">
                         <div class="alert alert-success" role="alert">
@@ -64,7 +64,7 @@ $actorObject = getActorData($actorId);
                     ?>
                     <div class="row">
                         <div class="alert alert-danger" role="alert">
-                            El actor no se ha editado correctamente. <br><a href="edit.php">Volver a
+                            El actor no se ha editado correctamente. <br><br><?php echo $error; ?><br><br><a href="edit.php">Volver a
                                 intentarlo</a>
                         </div>
                     </div>

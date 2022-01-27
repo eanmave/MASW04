@@ -18,12 +18,12 @@ $directors = listDirectors();
 $platforms = listPlatforms();
 
 $sendData = false;
-$serieEdited = false;
+$error = '';
 if (isset($_POST['editBtn'])) {
     $sendData = true;
 }
 if ($sendData && isset($_POST['title']) && isset($_POST['platformId']) && isset($_POST['directorId']) && isset($_POST['actorIds']) && isset($_POST['audioLanguageIds']) && isset($_POST['subtitleLanguageIds'])) {
-    $serieEdited = updateSerie($_POST['serieId'], $_POST['title'], $_POST['platformId'], $_POST['directorId'], $_POST['actorIds'], $_POST['audioLanguageIds'], $_POST['subtitleLanguageIds']);
+    $error = updateSerie($_POST['serieId'], $_POST['title'], $_POST['platformId'], $_POST['directorId'], $_POST['actorIds'], $_POST['audioLanguageIds'], $_POST['subtitleLanguageIds']);
 }
 
 if (!$sendData) {
@@ -107,7 +107,7 @@ $serieSubtitleLanguages = getIdList($serieObject->getSubtitleLanguages());
             </form>
             <?php
             } else {
-                if ($serieEdited) {
+                if (empty($error)) {
                     ?>
                     <div class="row">
                         <div class="alert alert-success" role="alert">
@@ -120,7 +120,7 @@ $serieSubtitleLanguages = getIdList($serieObject->getSubtitleLanguages());
                     ?>
                     <div class="row">
                         <div class="alert alert-danger" role="alert">
-                            El serie no se ha editado correctamente. <br><a href="edit.php">Volver a
+                            El serie no se ha editado correctamente. <br><br><?php echo $error; ?><br><br><a href="edit.php">Volver a
                                 intentarlo</a>
                         </div>
                     </div>

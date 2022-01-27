@@ -9,9 +9,9 @@ require_once('../../controllers/PlatformController.php')
 
 <?php
 $platformId = $_POST['platformId'];
-$platformDeleted = deletePlatform($platformId);
+$error = deletePlatform($platformId);
 
-if ($platformDeleted) {
+if (empty($error)) {
     ?>
     <div class="row">
         <div class="alert alert-success" role="alert">
@@ -24,8 +24,7 @@ if ($platformDeleted) {
     ?>
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            La plataforma no se ha borrado correctamente. <br><a href="delete.php">Volver a
-                intentarlo</a>
+            La plataforma no se ha borrado correctamente. <br><br><?php echo $error; ?><br><br><a href="list.php">Regresar</a>
         </div>
     </div>
     <?php
